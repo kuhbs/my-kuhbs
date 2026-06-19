@@ -1,0 +1,61 @@
+id: kuhbs-net-nic
+name: Kuhbs Net Nic
+summary: Migrated KUHBS config for kuhbs-net-nic
+description: Migrated from old Bash KUHBS config kuhbs/net/nic
+icon: icon.svg
+order: 2
+type: ndp
+template: debian-13-minimal
+confirm_network_after_upgrade: True
+
+kuhs:
+
+  tpl:
+    setup_scripts:
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-sources-list-enforce-http.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-update.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/basics.sh
+
+  app:
+    instances:
+      - id: default
+        prefs:
+          label: purple
+          template_for_dispvms: True
+
+  ndp:
+    instances:
+      - id: default
+        prefs:
+          virt_mode: hvm
+          label: purple
+          provides_network: True
+          autostart: True
+        services:
+          qubes-network: True
+          network-manager: True
+        launchers:
+
+          - id: terminal
+            name: Terminal
+            user: root
+            command: terminal
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: network-manager
+            name: Network Manager
+            user: root
+            command: /usr/bin/nm-connection-editor
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: wireshark
+            name: Wireshark
+            user: root
+            command: /usr/bin/wireshark
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False

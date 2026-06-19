@@ -1,0 +1,51 @@
+id: browse
+name: Browse
+summary: Browse trusted websites
+description: Disposable browser qubes for LibreWolf, Firefox, or Chromium
+icon: icon.svg
+order: 500
+type: app
+template: debian-13-minimal
+
+kuhs:
+
+  tpl:
+    prefs:
+      netvm: ndp-kuhbs-net-gateway
+    setup_scripts:
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-sources-list-enforce-http.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-update.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/basics.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/networking-packages.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/install-flatpak.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/passwordless-sudo-shutdown.sh
+
+  app:
+    instances:
+      - id: default
+        i3_integration_auto_pause: True
+        prefs:
+          netvm: ndp-kuhbs-net-gateway
+          label: orange
+          template_for_dispvms: True
+        backup:
+          paths:
+            - "/home/user/Downloads"
+            - "/home/user/.config/chromium"
+        launchers:
+          - id: terminal
+            name: Terminal
+            user: user
+            command: terminal
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: chromium
+            name: Chromium
+            user: user
+            command: /usr/bin/chromium
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+            autostart: True

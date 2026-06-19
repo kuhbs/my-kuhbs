@@ -1,0 +1,58 @@
+id: kuhbs-net-firewall
+name: KUHBS Net Firewall
+summary: KUHBS snitch firewall between apps and net gateway
+description: Dedicated KUHBS firewall AppVM running Qubes Snitch
+icon: icon.svg
+order: 3
+type: app
+template: debian-13-minimal
+
+kuhs:
+
+ tpl:
+  prefs:
+    # Template setup needs network only long enough to clone Qubes-Snitch from GitHub
+    netvm: ndp-kuhbs-net-gateway
+  setup_scripts:
+  - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-sources-list-enforce-http.sh
+  - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-update.sh
+  - /usr/share/kuhbs/setup-scripts/kuhbs/setup/basics.sh
+  - /usr/share/kuhbs/setup-scripts/kuhbs/setup/networking-packages.sh
+
+ app:
+  instances:
+  - id: default
+    prefs:
+      virt_mode: hvm
+      label: purple
+      netvm: ndp-kuhbs-net-gateway
+      provides_network: True
+      autostart: True
+      memory: 4096
+      maxmem: 4096
+    services:
+      # Qubes owns routing, NAT, DNS DNAT, forwarding order, and vif anti-spoofing
+      qubes-network: True
+      # Keep Qubes firewall plumbing active; Qubes Snitch is the interactive policy layer on top
+      qubes-firewall: True
+    backup:
+      paths:
+        - "/rw/usrlocal/qubes-snitch/rules/"
+
+    launchers:
+
+    - id: terminal
+      name: Terminal
+      user: root
+      command: terminal
+      dispvm: False
+      run_in_terminal: False
+      shutdown_on_exit_0: False
+
+    - id: qubes-snitch
+      name: Qubes Snitch
+      user: user
+      command: /usr/bin/qubes-snitch
+      dispvm: False
+      run_in_terminal: True
+      shutdown_on_exit_0: False

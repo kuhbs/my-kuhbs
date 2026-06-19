@@ -1,0 +1,43 @@
+id: tor
+name: Tor
+summary: Whonix workstation DisposableVM launcher
+description: Disposable Tor Browser KUH using existing whonix-workstation-18 template
+icon: icon.svg
+order: 500
+type: udp
+template: whonix-workstation-18
+
+kuhs:
+
+  tpl:
+    prefs:
+      label: purple
+
+  app:
+    instances:
+      - id: default
+        prefs:
+          label: purple
+          netvm: ndp-kuhbs-net-tor
+          template_for_dispvms: True
+        features:
+          # Qubes appmenus for this AppVM are used as DispVM launchers
+          appmenus-dispvm: True
+          menu-items: torbrowser.desktop xfce4-terminal.desktop
+          default-menu-items: torbrowser.desktop xfce4-terminal.desktop
+        launchers:
+          - id: tor-browser
+            name: Tor Browser
+            user: user
+            dispvm: True
+            command: /usr/bin/update-torbrowser && /usr/bin/torbrowser
+            run_in_terminal: False
+            shutdown_on_exit_0: True
+
+          - id: terminal
+            name: Terminal
+            user: user
+            dispvm: True
+            command: terminal
+            run_in_terminal: False
+            shutdown_on_exit_0: False

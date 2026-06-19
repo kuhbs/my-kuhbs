@@ -1,0 +1,5 @@
+ndp-kuhbs-net-gateway should have nftables rules to only allow:
+  - dnscrypt-proxy
+  - systemd-timesyncd
+  - apt-cacher-ng httpS
+  - what else?

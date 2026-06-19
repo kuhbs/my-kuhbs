@@ -1,0 +1,58 @@
+id: kuhbs-net-tor
+name: Kuhbs Net Tor
+summary: Whonix gateway behind KUHBS net gateway
+description: Simple Whonix Gateway KUH using existing whonix-gateway-18 template
+icon: icon.svg
+order: 4
+type: ndp
+template: whonix-gateway-18
+
+kuhs:
+
+  app:
+    instances:
+      - id: default
+        prefs:
+          label: purple
+          template_for_dispvms: True
+
+  ndp:
+    instances:
+      - id: default
+        prefs:
+          virt_mode: hvm
+          label: yellow
+          # Tor is routed through the snitch firewall so connection prompts can be learned interactively
+          netvm: app-kuhbs-net-firewall
+          provides_network: True
+        services:
+          qubes-network: True
+        launchers:
+          - id: terminal
+            name: Terminal
+            user: root
+            command: terminal
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+          - id: tor-control-panel
+            name: Tor Control Panel
+            user: user
+            command: /usr/bin/tor-control-panel
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+          - id: anon-connection-wizard
+            name: Anon Connection Wizard
+            user: user
+            command: /usr/bin/anon-connection-wizard
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+          - id: nyx
+            name: Nyx Tor Monitor
+            user: user
+            command: /usr/bin/nyx
+            dispvm: False
+            run_in_terminal: True
+            shutdown_on_exit_0: False

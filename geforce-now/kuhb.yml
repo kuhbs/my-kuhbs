@@ -1,0 +1,54 @@
+id: geforce-now
+name: GeForce Now
+summary: NVIDIA GeForce NOW cloud gaming
+description: Disposable Chromium qube for GeForce NOW game streaming
+icon: icon.svg
+order: 500
+type: ndp
+template: debian-13-minimal
+
+kuhs:
+
+  tpl:
+    setup_scripts:
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-sources-list-enforce-http.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-update.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/basics.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/networking-packages.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/install-flatpak.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/passwordless-sudo-shutdown.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/audio.sh
+
+  app:
+    instances:
+      - id: default
+        prefs:
+          label: purple
+          netvm: ndp-kuhbs-net-gateway
+          template_for_dispvms: True
+  ndp:
+    instances:
+      - id: default
+        i3_integration_auto_pause: True
+        prefs:
+          label: green
+          maxmem: 4096
+          memory: 4096
+          netvm: ndp-kuhbs-net-gateway
+          vcpus: 4
+        launchers:
+          - id: terminal
+            name: Terminal
+            user: user
+            command: terminal
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: geforce-now
+            name: GeForce Now
+            user: user
+            command: /usr/bin/flatpak run org.chromium.Chromium --enable-features=VaapiVideoDecodeLinuxGL --use-gl=angle https://play.geforcenow.com
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: True

@@ -1,0 +1,46 @@
+id: hermes
+name: Hermes
+summary: Hermes disposable
+description: Disposable hermes to be used to replace chatgpt.com
+icon: icon.svg
+order: 500
+type: udp
+template: debian-13-minimal
+
+kuhs:
+
+  tpl:
+    prefs:
+      netvm: ndp-kuhbs-net-gateway
+    setup_scripts:
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-sources-list-enforce-http.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-update.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/basics.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/networking-packages.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/passwordless-sudo-shutdown.sh
+
+  app:
+    instances:
+
+      - id: default
+        prefs:
+          netvm: ndp-kuhbs-net-gateway
+          label: blue
+          template_for_dispvms: True
+        launchers:
+          - id: terminal
+            name: Terminal
+            user: user
+            command: terminal
+            dispvm: True
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: hermes
+            name: Hermes
+            user: user
+            command: /usr/bin/xfce4-terminal --execute /home/user/.local/bin/hermes
+            dispvm: True
+            run_in_terminal: False
+            shutdown_on_exit_0: True
+            autostart: False

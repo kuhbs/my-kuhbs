@@ -1,0 +1,66 @@
+id: media
+name: Media
+summary: All things multimedia
+description: Watching movies and alike
+icon: icon.svg
+order: 500
+type: app
+template: debian-13-minimal
+
+kuhs:
+
+  tpl:
+    setup_scripts:
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-sources-list-enforce-http.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-update.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/basics.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/networking-packages.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/install-flatpak.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/passwordless-sudo-shutdown.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/audio.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/nautilus.sh
+
+  app:
+    instances:
+      - id: default
+        i3_integration_auto_pause: False
+        prefs:
+          netvm: ndp-kuhbs-net-gateway
+          label: orange
+          template_for_dispvms: True
+        backup:
+          paths:
+            - "/home/user"
+        launchers:
+
+          - id: terminal
+            name: Terminal
+            user: user
+            command: terminal
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: librewolf
+            name: LibreWolf
+            user: user
+            command: /usr/bin/flatpak run io.gitlab.librewolf-community
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: nautilus
+            name: Nautilus
+            user: user
+            command: /usr/bin/nautilus
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: transmission
+            name: Transmission-GTK
+            user: user
+            command: /usr/bin/transmission-gtk
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False

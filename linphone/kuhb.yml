@@ -1,0 +1,55 @@
+id: linphone
+name: Linphone
+summary: SIP softphone via upstream AppImage
+description: Linphone VoIP/SIP client using upstream AppImage
+icon: icon.svg
+order: 500
+type: ndp
+template: debian-13-minimal
+
+kuhs:
+
+  tpl:
+    setup_scripts:
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-sources-list-enforce-http.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-update.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/basics.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/networking-packages.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/passwordless-sudo-shutdown.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/audio.sh
+
+  app:
+    instances:
+      - id: default
+        prefs:
+          label: purple
+          netvm: ndp-kuhbs-net-gateway
+          template_for_dispvms: True
+        backup:
+          paths:
+            - "/home/user/.config/linphone"
+            - "/home/user/.local/share/linphone"
+
+  ndp:
+    instances:
+      - id: default
+        i3_integration_auto_pause: False
+        prefs:
+          label: green
+          netvm: ndp-kuhbs-net-gateway
+        launchers:
+          - id: terminal
+            name: Terminal
+            user: user
+            command: terminal
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: linphone
+            name: Linphone
+            user: user
+            command: /opt/linphone/Linphone.AppImage
+            dispvm: False
+            run_in_terminal: True
+            shutdown_on_exit_0: True

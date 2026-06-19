@@ -1,0 +1,60 @@
+id: kuhbs-net-gateway
+name: Kuhbs Net Gateway
+summary: Migrated KUHBS config for kuhbs-net-gateway
+description: Migrated from old Bash KUHBS config kuhbs/net/gateway
+icon: icon.svg
+order: 1
+type: ndp
+template: debian-13-minimal
+
+kuhs:
+
+  tpl:
+    prefs:
+      # This is changed by a hook after kuhbs-net-nic has been created
+      netvm: sys-net
+    backup:
+      paths:
+        - "/etc/wireguard"
+    setup_scripts:
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-update.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/basics.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/networking-packages.sh
+
+  app:
+    instances:
+      - id: default
+        prefs:
+          label: purple
+          template_for_dispvms: True
+
+  ndp:
+    instances:
+      - id: default
+        prefs:
+          virt_mode: hvm
+          label: purple
+          netvm: sys-net
+          provides_network: True
+          autostart: True
+          memory: 8192
+          maxmem: 8192
+        services:
+          qubes-network: True
+        launchers:
+
+          - id: terminal
+            name: Terminal
+            user: root
+            command: terminal
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: wireshark
+            name: Wireshark
+            user: root
+            command: /usr/bin/wireshark
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False

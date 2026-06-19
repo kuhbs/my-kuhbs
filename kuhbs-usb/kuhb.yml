@@ -1,0 +1,42 @@
+id: kuhbs-usb
+name: Kuhbs USB
+summary: Migrated KUHBS config for kuhbs-usb
+description: Migrated from old Bash KUHBS config kuhbs/usb
+icon: icon.svg
+order: 4
+type: ndp
+template: debian-13-xfce
+
+kuhs:
+
+  tpl:
+    prefs:
+      # USB template setup downloads through the snitch firewall during template installation
+      netvm: app-kuhbs-net-firewall
+    setup_scripts:
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-sources-list-enforce-http.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-update.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/basics.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/networking-packages.sh
+
+  app:
+    instances:
+      - id: default
+        prefs:
+          template_for_dispvms: True
+
+  ndp:
+    instances:
+      - id: default
+        i3_integration_auto_pause: False
+        prefs:
+          autostart: True
+          label: purple
+        launchers:
+          - id: terminal
+            name: Terminal
+            user: root
+            command: terminal
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False

@@ -1,0 +1,7 @@
+<svg role="img" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <title>Airgap</title>
+  <rect x="22" y="52" width="84" height="64" rx="10" fill="#6400A8"/>
+  <path d="M40 52V40C40 26.7 50.7 16 64 16s24 10.7 24 24v12H76V40c0-6.6-5.4-12-12-12S52 33.4 52 40v12H40Z" fill="#6400A8"/>
+  <circle cx="64" cy="82" r="8" fill="transparent"/>
+  <path d="M60 88h8l4 18H56l4-18Z" fill="transparent"/>
+</svg>

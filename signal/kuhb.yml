@@ -1,0 +1,51 @@
+id: signal
+name: Signal
+summary: Migrated KUHBS config for signal
+description: Signal Desktop application AppVM
+icon: icon.svg
+order: 500
+type: app
+template: debian-13-minimal
+
+kuhs:
+
+  tpl:
+    prefs:
+      netvm: ndp-kuhbs-net-gateway
+    setup_scripts:
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-sources-list-enforce-http.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/apt-update.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/basics.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/networking-packages.sh
+      - /usr/share/kuhbs/setup-scripts/kuhbs/setup/passwordless-sudo-shutdown.sh
+
+  app:
+    instances:
+      - id: default
+        setup_scripts:
+          - /usr/share/kuhbs/setup-scripts/kuhbs/setup/xmodmap-german-umlauts.sh
+        i3_integration_auto_pause: True
+        prefs:
+          label: green
+          netvm: ndp-kuhbs-net-gateway
+        # Why backup when you can resync with the phone.. More secure, as phone has to be trusted anyways
+        # backup:
+        #   paths:
+        #     - "/home/user/.config/Signal"
+        launchers:
+          - id: terminal
+            name: Terminal
+            user: user
+            command: terminal
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: False
+
+          - id: signal
+            name: Signal
+            user: user
+            command: /usr/bin/signal-desktop
+            dispvm: False
+            run_in_terminal: False
+            shutdown_on_exit_0: True
+            autostart: True
